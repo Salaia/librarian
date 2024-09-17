@@ -3,15 +3,16 @@ package puma.hope.librarian_users.kafka.producer;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.kafka.core.KafkaTemplate;
 import org.springframework.stereotype.Component;
+import puma.hope.librarian_users.model.EventMessage;
 
 @Component
 public class MessageProducer {
 
     @Autowired
-    private KafkaTemplate<String, String> kafkaTemplate;
+    private KafkaTemplate<String, EventMessage> kafkaEventTemplate;
 
-    public void sendMessage(String topic, String message) {
-        kafkaTemplate.send(topic, message);
+    public void sendEventMessage(String topic, EventMessage message) {
+        kafkaEventTemplate.send(topic, message);
     }
 
 }

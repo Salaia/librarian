@@ -25,6 +25,7 @@
     <modules>
         <module>adviser</module>
         <module>user-service</module>
+        <module>kafka-event</module>
     </modules>
     <scm>
         <connection/>
@@ -62,6 +63,10 @@
         <dependency>
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-data-jdbc</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-data-jpa</artifactId>
         </dependency>
 
         <dependency>

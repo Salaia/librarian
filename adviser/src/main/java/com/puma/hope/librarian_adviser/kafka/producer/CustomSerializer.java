@@ -1,13 +1,13 @@
 package com.puma.hope.librarian_adviser.kafka.producer;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.puma.hope.librarian_adviser.model.MessageDto;
+import com.puma.hope.librarian_adviser.model.EventMessage;
 import org.apache.kafka.common.errors.SerializationException;
 import org.apache.kafka.common.serialization.Serializer;
 
 import java.util.Map;
 
-public class CustomSerializer implements Serializer<MessageDto> {
+public class CustomSerializer implements Serializer<EventMessage> {
     private final ObjectMapper objectMapper = new ObjectMapper();
 
     @Override
@@ -15,7 +15,7 @@ public class CustomSerializer implements Serializer<MessageDto> {
     }
 
     @Override
-    public byte[] serialize(String topic, MessageDto data) {
+    public byte[] serialize(String topic, EventMessage data) {
         try {
             if (data == null){
                 System.out.println("Null received at serializing");
@@ -24,7 +24,7 @@ public class CustomSerializer implements Serializer<MessageDto> {
             System.out.println("Serializing...");
             return objectMapper.writeValueAsBytes(data);
         } catch (Exception e) {
-            throw new SerializationException("Error when serializing MessageDto to byte[]");
+            throw new SerializationException("Error when serializing EventMessage to byte[]");
         }
     }
 

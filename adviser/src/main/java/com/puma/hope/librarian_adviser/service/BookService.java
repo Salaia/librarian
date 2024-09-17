@@ -63,14 +63,6 @@ public class BookService {
     }
 
     public Book create(Book book) {
-        String message = "Create film " + book.getName();
-        kafkaProducer.sendMessage("string-topic", message);
-
-
-        MessageDto msgProd = MessageDto.builder().message("Name of DTO").version("1.0").build();
-        kafkaProducer.sendMessageDTO("dto-topic", msgProd);
-
-
         log.info("Book " + book.getName() + " was successfully saved!");
         return bookStorage.create(book);
     }

@@ -1,12 +1,12 @@
-/*
-package puma.hope.librarian_users.kafka.controller;
+package puma.hope.librarian.event.kafka.controller;
+
 
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
-import puma.hope.librarian_users.kafka.producer.MessageProducer;
+import puma.hope.librarian.event.kafka.producer.MessageProducer;
 
 @RestController
 public class KafkaController {
@@ -20,4 +20,4 @@ public class KafkaController {
         return "Message sent: " + message;
     }
 
-}*/
+}

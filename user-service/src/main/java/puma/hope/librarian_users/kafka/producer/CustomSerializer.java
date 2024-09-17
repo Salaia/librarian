@@ -1,14 +1,13 @@
-/*
-package com.puma.hope.librarian_adviser.kafka.producer;
+package puma.hope.librarian_users.kafka.producer;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.zholtikov.filminator.filmservice.model.Director;
 import org.apache.kafka.common.errors.SerializationException;
 import org.apache.kafka.common.serialization.Serializer;
+import puma.hope.librarian_users.model.EventMessage;
 
 import java.util.Map;
 
-public class DirectorSerializer implements Serializer<Director> {
+public class CustomSerializer implements Serializer<EventMessage> {
     private final ObjectMapper objectMapper = new ObjectMapper();
 
     @Override
@@ -16,7 +15,7 @@ public class DirectorSerializer implements Serializer<Director> {
     }
 
     @Override
-    public byte[] serialize(String topic, Director data) {
+    public byte[] serialize(String topic, EventMessage data) {
         try {
             if (data == null){
                 System.out.println("Null received at serializing");
@@ -25,11 +24,11 @@ public class DirectorSerializer implements Serializer<Director> {
             System.out.println("Serializing...");
             return objectMapper.writeValueAsBytes(data);
         } catch (Exception e) {
-            throw new SerializationException("Error when serializing Director to byte[]");
+            throw new SerializationException("Error when serializing EventMessage to byte[]");
         }
     }
 
     @Override
     public void close() {
     }
-}*/
+}

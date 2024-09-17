@@ -1,0 +1,71 @@
+
+services:
+
+  zookeeper:
+    image: confluentinc/cp-zookeeper:latest
+    environment:
+      ZOOKEEPER_CLIENT_PORT: 2181
+      ZOOKEEPER_TICK_TIME: 2000
+    ports:
+      - 22181:2181
+
+  kafka:
+    image: confluentinc/cp-kafka:latest
+    depends_on:
+      - zookeeper
+    ports:
+      - 29092:29092
+    environment:
+      KAFKA_BROKER_ID: 1
+      KAFKA_ZOOKEEPER_CONNECT: zookeeper:2181
+      KAFKA_ADVERTISED_LISTENERS: PLAINTEXT://kafka:9092,PLAINTEXT_HOST://localhost:29092
+      KAFKA_LISTENER_SECURITY_PROTOCOL_MAP: PLAINTEXT:PLAINTEXT,PLAINTEXT_HOST:PLAINTEXT
+      KAFKA_INTER_BROKER_LISTENER_NAME: PLAINTEXT
+      KAFKA_OFFSETS_TOPIC_REPLICATION_FACTOR: 1
+
+  kafka-event:
+    build: kafka-event
+    image: kafka-event-image
+    container_name: librarian-kafka-event
+    ports:
+      - "8083:8083"
+    depends_on:
+      - adviser
+
+  user-service:
+    build: user-service
+    image: user-service-image
+    container_name: librarian-user-service
+    ports:
+      - "8082:8082"
+    depends_on:
+      - adviser
+
+  adviser:
+    build: adviser
+    image: librarian-adviser-image
+    container_name: adviser-librarian
+    ports:
+      - "8081:8081"
+    depends_on:
+      - kafka
+      - postgres_db
+
+
+  postgres_db:
+      image: postgres:13.7-alpine
+      volumes:
+        - /var/lib/postgresql/data/
+      container_name: db_postgres
+      ports:
+        - "6541:5432"
+      environment:
+        - POSTGRES_DB=librarian
+        - POSTGRES_USER=postgres
+        - POSTGRES_PASSWORD=iamroot
+
+
+
+
+
+
