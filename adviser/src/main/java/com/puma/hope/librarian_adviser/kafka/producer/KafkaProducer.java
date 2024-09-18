@@ -1,11 +1,10 @@
 
 package com.puma.hope.librarian_adviser.kafka.producer;
 
+import com.puma.hope.librarian_adviser.model.EventMessage;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.kafka.core.KafkaTemplate;
 import org.springframework.stereotype.Component;
-import com.puma.hope.librarian_adviser.model.MessageDto;
-import puma.hope.librarian_users.model.EventMessage;
 
 @Component
 public class KafkaProducer {

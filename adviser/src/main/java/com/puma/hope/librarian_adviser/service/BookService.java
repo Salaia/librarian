@@ -2,8 +2,7 @@ package com.puma.hope.librarian_adviser.service;
 
 import com.puma.hope.librarian_adviser.exception.EntityNotFoundException;
 import com.puma.hope.librarian_adviser.kafka.producer.KafkaProducer;
-import com.puma.hope.librarian_adviser.model.Book;
-import com.puma.hope.librarian_adviser.model.MessageDto;
+import com.puma.hope.librarian_adviser.model.*;
 import com.puma.hope.librarian_adviser.storage.face.BookStorage;
 import com.puma.hope.librarian_adviser.storage.face.UserStorage;
 import lombok.AccessLevel;
@@ -36,6 +35,10 @@ public class BookService {
         userStorage.checkUserExistence(userId);
         bookStorage.checkBookExistence(bookId);
 
+        EventMessage eventMessage = EventMessage.builder().userId(userId).targetId(bookId)
+                .operation(EventOperation.ADD).type(EventEntityType.LIKE).build();
+        kafkaProducer.sendEventMessage("event-topic", eventMessage);
+
         bookStorage.addLike(bookId, userId);
         log.info("Like was added to book " + bookId);
         return bookStorage.findBookById(bookId);
@@ -44,6 +47,11 @@ public class BookService {
     public Book removeLike(Long bookId, Long userId) {
         userStorage.checkUserExistence(userId);
         bookStorage.checkBookExistence(bookId);
+
+        EventMessage eventMessage = EventMessage.builder().userId(userId).targetId(bookId)
+                .operation(EventOperation.REMOVE).type(EventEntityType.LIKE).build();
+        kafkaProducer.sendEventMessage("event-topic", eventMessage);
+
         bookStorage.removeLike(bookId, userId);
         log.info("Like was removed from book " + bookId);
         return bookStorage.findBookById(bookId);
