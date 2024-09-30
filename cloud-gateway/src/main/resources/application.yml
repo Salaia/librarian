@@ -1,0 +1,39 @@
+server:
+  port: 8081
+
+spring:
+  application:
+    name: API-GATEWAY
+  cloud:
+    gateway:
+      routes:
+        - id: KAFKA-EVENT
+          uri: lb://KAFKA-EVENT
+          predicates:
+            - Path=/feed/**
+        - id: ADVISER
+          uri: lb://ADVISER
+          predicates:
+            - Path=/authors/**
+        - id: ADVISER
+          uri: lb://ADVISER
+          predicates:
+            - Path=/books/**
+        - id: ADVISER
+          uri: lb://ADVISER
+          predicates:
+            - Path=/genres/**
+        - id: USER-SERVICE
+          uri: lb://USER-SERVICE
+          predicates:
+            - Path=/users/**
+
+
+eureka:
+  client:
+    register-with-eureka: true
+    fetch-registry: true
+    service-url:
+      defaultZone: http://localhost:8761/eureka/
+  instance:
+    hostname: localhost

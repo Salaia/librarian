@@ -26,6 +26,8 @@
         <module>adviser</module>
         <module>user-service</module>
         <module>kafka-event</module>
+        <module>service-registry</module>
+        <module>cloud-gateway</module>
     </modules>
     <scm>
         <connection/>
